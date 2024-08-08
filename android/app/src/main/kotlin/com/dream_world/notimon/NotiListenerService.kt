@@ -8,7 +8,7 @@ import io.flutter.plugin.common.MethodChannel
 import android.os.Handler
 import android.os.Looper
 
-class MyNotificationListenerService : NotificationListenerService() {
+class NotiListenerService : NotificationListenerService() {
     companion object {
         var channel: MethodChannel? = null
     }
@@ -31,18 +31,9 @@ class MyNotificationListenerService : NotificationListenerService() {
         val notification = sbn.notification
         val extras = notification.extras
 
-        val notiTag = extras.getString(Notification.EXTRA_NOTIFICATION_TAG) ?: ""
-        val convTitle = extras.getString(Notification.EXTRA_CONVERSATION_TITLE) ?: ""
-
-        // val title = extras.getString(Notification.EXTRA_TITLE) ?: ""
         val title = extras.getCharSequence(Notification.EXTRA_TITLE)?.toString()
-        val bigTitle = extras.getString(Notification.EXTRA_TITLE_BIG) ?: ""
         var text = extras.getCharSequence(Notification.EXTRA_TEXT)?.toString() ?: ""
         val bigText = extras.getCharSequence(Notification.EXTRA_BIG_TEXT)?.toString() ?: ""
-        val summary = extras.getString(Notification.EXTRA_SUMMARY_TEXT) ?: ""
-        val subtext = extras.getString(Notification.EXTRA_SUB_TEXT) ?: ""
-        val veritext = extras.getString(Notification.EXTRA_VERIFICATION_TEXT) ?: ""
-        val infotext = extras.getString(Notification.EXTRA_INFO_TEXT) ?: ""
 
         if (text.isEmpty() && bigText.isNotEmpty()) {
             text = bigText
@@ -50,16 +41,8 @@ class MyNotificationListenerService : NotificationListenerService() {
 
         val notificationInfo = mapOf(
             "packageName" to packageName,
-            "notiTag" to notiTag,
-            "convTitle" to convTitle,
             "title" to title,
-            "bigTitle" to bigTitle,
-            "text" to text,
-            "bigText" to bigText,
-            "summary" to summary,
-            "subtext" to subtext,
-            "veritext" to veritext,
-            "infotext" to infotext
+            "text" to text
         )
 
         Log.d("MyNotificationListener", "Notification Info: $notificationInfo")
